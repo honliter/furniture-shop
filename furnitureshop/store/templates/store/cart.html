@@ -1,0 +1,55 @@
+{% extends 'store/base.html' %}
+{% block title %}Кошик — Меблевий Дім{% endblock %}
+{% block extra_css %}
+<style>
+    .page-header { margin-bottom: 36px; }
+    .page-header .label { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; }
+    .cart-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 16px var(--shadow); }
+    .cart-table th { background: var(--dark-wood); color: var(--gold); font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; padding: 14px 20px; text-align: left; }
+    .cart-table td { padding: 18px 20px; border-bottom: 1px solid var(--cream); font-size: 0.9rem; vertical-align: middle; }
+    .cart-table tr:last-child td { border-bottom: none; }
+    .item-name { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--text-dark); }
+    .item-emoji { font-size: 1.8rem; margin-right: 12px; }
+    .total-row { background: var(--cream); }
+    .total-row td { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; }
+    .btn-checkout { background: var(--dark-wood); color: var(--gold); border: none; padding: 14px 32px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; cursor: pointer; margin-top: 24px; transition: background 0.2s; text-decoration: none; display: inline-block; }
+    .btn-checkout:hover { background: var(--medium-wood); }
+    .empty { text-align: center; padding: 60px; color: var(--text-light); }
+    .empty .icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty a { color: var(--light-wood); text-decoration: none; font-weight: 500; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="label">Ваш вибір</div>
+    <h1>Кошик покупок</h1>
+</div>
+{% if cart_items %}
+<table class="cart-table">
+    <thead><tr><th>Товар</th><th>Ціна</th><th>Кількість</th><th>Сума</th></tr></thead>
+    <tbody>
+        {% for ci in cart_items %}
+        <tr>
+            <td><span class="item-emoji">{{ ci.item.emoji }}</span><span class="item-name">{{ ci.item.title }}</span></td>
+            <td>{{ ci.item.price }} грн</td>
+            <td>{{ ci.qty }}</td>
+            <td>{{ ci.subtotal }} грн</td>
+        </tr>
+        {% endfor %}
+        <tr class="total-row">
+            <td colspan="3">Разом:</td>
+            <td>{{ total }} грн</td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <a class="btn-checkout" href="/checkout/">Оформити замовлення</a>
+</div>
+{% else %}
+<div class="empty">
+    <div class="icon">🛒</div>
+    <p>Кошик порожній. <a href="/">Перейти до каталогу</a></p>
+</div>
+{% endif %}
+{% endblock %}
